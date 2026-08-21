@@ -144,7 +144,7 @@ def processar_csv_upload(uploaded_file, df_estoque):
                 
                 df_estoque.at[idx, 'ultimo_pedido_id'] = id_pedido
             else:
-                novo_sku = f"TH-{len(df_estoque) + 1:03d}"
+                novo_sku = f"XZ-{len(df_estoque) + 1:03d}"
                 margem_inicial = round(((preco_sugerido - custo_tot_unit) / custo_tot_unit) * 100, 2) if custo_tot_unit > 0 else 0.0
 
                 novo_item = {
