@@ -174,7 +174,7 @@ df_vendas = carregar_vendas()
 # ________________________________
 # INTERFACE GRÁFICA (SIDEBAR E NAVEGAÇÃO)
 # ________________________________
-st.sidebar.title("🛍️ TH Variedades")
+st.sidebar.title("🛍️ XZ Variedades")
 st.sidebar.markdown("---")
 
 menu = st.sidebar.radio(
