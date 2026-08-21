@@ -198,6 +198,8 @@ if st.sidebar.button("⚠️ Zerar Todos os Dados", key="btn_zerar_dados"):
     ])
     
     salvar_dados(df_estoque_zerado, df_vendas_zerado)
+    if "df_edit" in st.session_state:
+        del st.session_state["df_edit"]
     st.sidebar.success("Todos os dados foram zerados!")
     st.rerun()
 
@@ -243,9 +245,8 @@ elif menu == "📦 Estoque & Preços":
     if not df_estoque.empty:
         st.caption("💡 Digite um novo valor em **Preço de Venda (R$)** e aperte **Enter**. A **% Margem Lucro** será recalculada automaticamente!")
 
-        # Guardar cópia no session_state para permitir edições reativas
-        if "df_edit" not in st.session_state:
-            st.session_state.df_edit = df_estoque.copy()
+        # Atualiza a cópia no session_state para manter sincronizado com o estoque atualizado
+        st.session_state.df_edit = df_estoque.copy()
 
         # Recalcular margem para cada linha exibida na tela
         st.session_state.df_edit['margem_porcentagem'] = st.session_state.df_edit.apply(
@@ -274,8 +275,8 @@ elif menu == "📦 Estoque & Preços":
 
         # Se houver modificações na tabela, atualiza o estado e recarrega
         if not edited_df.equals(st.session_state.df_edit):
-            st.session_state.df_edit = edited_df
             salvar_dados(edited_df, df_vendas)
+            st.session_state.df_edit = edited_df
             st.rerun()
 
         if st.button("💾 Salvar Alterações nos Preços", use_container_width=True):
@@ -329,6 +330,8 @@ elif menu == "🛒 Registrar Venda":
                 df_vendas = pd.concat([df_vendas, pd.DataFrame([nova_venda])], ignore_index=True)
                 
                 salvar_dados(df_estoque, df_vendas)
+                if "df_edit" in st.session_state:
+                    del st.session_state["df_edit"]
                 st.toast(f"Venda de {qtd_venda}x '{item['nome_produto']}' registrada!", icon="🎉")
                 st.rerun()
         else:
