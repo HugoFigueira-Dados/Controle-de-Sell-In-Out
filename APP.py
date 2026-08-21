@@ -9,7 +9,7 @@ import re
 # CONFIGURAÇÃO DA PÁGINA STREAMLIT
 # ________________________________
 st.set_page_config(
-    page_title="TH Variedades - Gestão & Estoque",
+    page_title="XZ Variedades - Gestão & Estoque",
     page_icon="🛍️",
     layout="wide"
 )
