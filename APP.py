@@ -180,7 +180,7 @@ st.sidebar.markdown("---")
 menu = st.sidebar.radio(
     "Navegação", 
     ["📊 Dashboard & KPIs", "📦 Estoque & Preços", "🛒 Registrar Venda", "📥 Importar Pedido (CSV)"],
-    key="menu_principal_th"
+    key="menu_principal_xz"
 )
 
 st.sidebar.markdown("---")
