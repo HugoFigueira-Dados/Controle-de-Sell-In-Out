@@ -172,15 +172,10 @@ def processar_csv_upload(uploaded_file, df_estoque):
         return df_estoque, False, 0, 0.0
 
 # ________________________________
-# CARREGAR DADOS COM ESTADO DE SESSÃO DEDICADO
+# CARREGAR DADOS DIRETO DOS CSVs A CADA EXECUÇÃO
 # ________________________________
-if 'df_estoque' not in st.session_state:
-    st.session_state['df_estoque'] = carregar_estoque()
-if 'df_vendas' not in st.session_state:
-    st.session_state['df_vendas'] = carregar_vendas()
-
-df_estoque = st.session_state['df_estoque']
-df_vendas = st.session_state['df_vendas']
+df_estoque = carregar_estoque()
+df_vendas = carregar_vendas()
 
 # ________________________________
 # INTERFACE GRÁFICA (SIDEBAR E NAVEGAÇÃO)
@@ -243,8 +238,6 @@ with st.sidebar.popover("⚠️ Zerar Todos os Dados"):
             ])
             
             salvar_dados(df_estoque_zerado, df_vendas_zerado)
-            st.session_state['df_estoque'] = df_estoque_zerado
-            st.session_state['df_vendas'] = df_vendas_zerado
             st.success("Todos os dados foram zerados com sucesso!")
             st.rerun()
         else:
@@ -400,7 +393,6 @@ elif menu == "📦 Estoque & Preços":
 
         if st.button("💾 Salvar Alterações nos Preços", use_container_width=True):
             salvar_dados(edited_df, df_vendas)
-            st.session_state['df_estoque'] = edited_df
             st.toast("Preços e margens salvos com sucesso!", icon="✅")
             st.rerun()
     else:
@@ -450,8 +442,6 @@ elif menu == "🛒 Registrar Venda":
                 df_vendas = pd.concat([df_vendas, pd.DataFrame([nova_venda])], ignore_index=True)
                 
                 salvar_dados(df_estoque, df_vendas)
-                st.session_state['df_estoque'] = df_estoque
-                st.session_state['df_vendas'] = df_vendas
                 st.toast(f"Venda de {qtd_venda}x '{item['nome_produto']}' registrada!", icon="🎉")
                 st.rerun()
         else:
@@ -475,8 +465,6 @@ elif menu == "📥 Importar Pedido (CSV)":
                 
             if sucesso:
                 salvar_dados(df_estoque, df_vendas)
-                st.session_state['df_estoque'] = df_estoque
-                st.session_state['df_vendas'] = df_vendas
                 st.success("✅ Pedido processado e adicionado ao estoque!")
                 st.toast("Estoque atualizado com sucesso!", icon="📦")
                 
